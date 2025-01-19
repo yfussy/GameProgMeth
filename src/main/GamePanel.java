@@ -33,4 +33,21 @@ public class GamePanel extends JPanel {
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 	}
+	
+	public void update() {
+		
+		player.update();
+	}
+	
+	public void paintComponent(Graphics g) {
+		
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		
+		// PLAYER
+		player.draw(g2);
+		
+		g2.dispose();
+		
+	}
 }
