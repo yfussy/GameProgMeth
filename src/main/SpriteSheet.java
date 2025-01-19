@@ -7,21 +7,20 @@ public class SpriteSheet {
 	
     public BufferedImage spriteSheet;
     public BufferedImage[] sprites;
-    int width;
-    int height;
-    int rows;
-    int columns;
+    int row, col;
+    int tileSize;
     
-    public SpriteSheet(int width, int height, int rows, int columns, BufferedImage spriteSheet) throws IOException {
+    public SpriteSheet(int width, int height, int row, int col, BufferedImage spriteSheet, int spriteNum) throws IOException {
+
+        this.row = row;
+        this.col = col;
+        this.tileSize = width/col;
         
-    	this.width = width;
-        this.height = height;
-        this.rows = rows;
-        this.columns = columns;
         this.spriteSheet = spriteSheet;
-        for(int i = 0; i < rows; i++) {
-            for(int j = 0; j < columns; j++) {
-                sprites[(i * columns) + j] = spriteSheet.getSubimage(i * width, j * height, width, height);
+        sprites = new BufferedImage[spriteNum];
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++) {
+                sprites[(i * col) + j] = spriteSheet.getSubimage(j * tileSize, i * tileSize, tileSize, tileSize);
             }
         }
     }

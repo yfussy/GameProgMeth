@@ -19,6 +19,7 @@ public class Main {
 		w.setLocationRelativeTo(null); // set location to center
 		w.setVisible(true); // make window visible
 		
+		gp.startGameThread();
 	}
 
 }

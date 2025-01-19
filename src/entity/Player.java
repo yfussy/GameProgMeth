@@ -42,9 +42,11 @@ public class Player extends Entity {
 	
 	public void update() {
 		
-		if (!moving) {
-			if (keyH.upPressed || keyH.downPressed ||
-					keyH.leftPressed || keyH.rightPressed ) {
+		if (moving == false) {
+			
+			if (keyH.upPressed == true || keyH.downPressed == true || 
+					keyH.leftPressed == true || keyH.rightPressed == true) {
+				
 				if (keyH.upPressed == true) {
 					direction = "up";
 				}
@@ -62,13 +64,13 @@ public class Player extends Entity {
 			else { // Return sprite animation to default when standing still;
 				standCounter++;
 				if (standCounter == 16) {
-					spriteNum = 0;
+					spriteNum = 1;
 					standCounter = 0;
 				}
 			}
 		}
 		
-		if (moving) {
+		if (moving == true) {
 			
 			// Animate sprite moving
 			spriteCounter++;
@@ -97,7 +99,7 @@ public class Player extends Entity {
 		BufferedImage playerSheet;
 		try {
 			playerSheet = ImageIO.read(getClass().getResourceAsStream("/player/player_sprite_sheet.png"));
-			ss = new SpriteSheet(48, 96, 24, 24, playerSheet);
+			ss = new SpriteSheet(48, 96, 4, 2, playerSheet, 8);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -107,24 +109,19 @@ public class Player extends Entity {
 	public void draw(Graphics2D g2) {
 		
 		BufferedImage img = null;
-		int i;
 		
 		switch(direction) {
 		case "up":
-			i = spriteNum;
-			img = ss.sprites[i];
+			img = ss.sprites[spriteNum + 6];
 			break;
 		case "down":
-			i = spriteNum + 2;
-			img = ss.sprites[i];
+			img = ss.sprites[spriteNum];
 			break;
 		case "left":
-			i = spriteNum + 4;
-			img = ss.sprites[i];
+			img = ss.sprites[spriteNum + 2];
 			break;
 		case "right":
-			i = spriteNum + 6;
-			img = ss.sprites[i];
+			img = ss.sprites[spriteNum + 4];
 			break;
 		}
 		g2.drawImage(img, SCREEN_X, SCREEN_Y, gp.TILE_SIZE, gp.TILE_SIZE, null);
