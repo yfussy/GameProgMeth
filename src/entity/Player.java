@@ -30,7 +30,8 @@ public class Player extends Entity {
 		SCREEN_X = gp.SCREEN_WIDTH/2 - (gp.TILE_SIZE/2);
 		SCREEN_Y = gp.SCREEN_HEIGHT/2 - (gp.TILE_SIZE/2);
 		
-		
+		setDefaultValues();
+		getPlayerImage();
 	}
 	
 	public void setDefaultValues() {
