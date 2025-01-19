@@ -13,7 +13,7 @@ public class Entity {
 	String direction;	
 	
 	int spriteCounter = 0;
-	int spriteNum = 1;
+	int spriteNum = 3;
 	SpriteSheet ss;
 	
 }

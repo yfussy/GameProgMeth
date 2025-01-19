@@ -17,14 +17,14 @@ public class TileManager {
 	GamePanel gp;
 	Tile[] tile;
 	int mapTileNum[][];
-	int spriteCount = 0;
+	int spriteCount = 10;
 	
 	
 	public TileManager(GamePanel gp) {
 		
 		this.gp = gp;
 		
-		tile = new Tile[10];
+		tile = new Tile[30];
 		mapTileNum = new int[gp.MAX_WORLD_COL][gp.MAX_WORLD_ROW];
 		
 		getTileImage();
@@ -39,11 +39,11 @@ public class TileManager {
 			// GRASS
 			BufferedImage img;
 			img = ImageIO.read(getClass().getResourceAsStream("/tiles/grass_sprite_sheet.png"));
-			SpriteSheet grassSheet = new SpriteSheet(48, 48, 3, 3, img, 9);
-			spriteCount += grassSheet.sprites.length;
-			for (int i = 0; i < spriteCount; i++) {
-				tile[i] = new Tile();
-				tile[i].image = grassSheet.sprites[i];
+			SpriteSheet grassSheet = new SpriteSheet(img.getWidth(), img.getHeight(), 3, 5, img, 15);
+			for (int i = 0; i < grassSheet.sprites.length; i++) {
+				tile[spriteCount] = new Tile();
+				tile[spriteCount].image = grassSheet.sprites[i];
+				spriteCount++;
 			}
 		
 			// DIRT

@@ -36,7 +36,7 @@ public class Player extends Entity {
 	
 	public void setDefaultValues() {
 		
-		worldX = gp.TILE_SIZE * 15;
+		worldX = gp.TILE_SIZE * 14;
 		worldY = gp.TILE_SIZE * 8;
 		speed = 6;
 		direction = "down";
@@ -65,8 +65,8 @@ public class Player extends Entity {
 			}
 			else { // Return sprite animation to default when standing still;
 				standCounter++;
-				if (standCounter == 16) {
-					spriteNum = 1;
+				if (standCounter == 4) {
+					spriteNum = 3;
 					standCounter = 0;
 				}
 			}
@@ -93,9 +93,9 @@ public class Player extends Entity {
 			System.out.println("sNum: " + spriteNum);
 			// Animate sprite moving
 			spriteCounter++;
-			if (spriteCounter > 8) {
+			if (spriteCounter > 3) {
 				spriteNum++;
-				if (spriteNum > 3) {
+				if (spriteNum > 7) {
 					spriteNum = 0;
 				}
 				spriteCounter = 0;
@@ -115,7 +115,7 @@ public class Player extends Entity {
 		BufferedImage playerSheet;
 		try {
 			playerSheet = ImageIO.read(getClass().getResourceAsStream("/player/player_sprite_sheet.png"));
-			ss = new SpriteSheet(96, 96, 4, 4, playerSheet, 16);
+			ss = new SpriteSheet(playerSheet.getWidth(), playerSheet.getHeight(), 4, 8, playerSheet, 32);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -128,16 +128,16 @@ public class Player extends Entity {
 		
 		switch(direction) {
 		case "up":
-			img = ss.sprites[spriteNum + 12];
+			img = ss.sprites[24 + spriteNum];
 			break;
 		case "down":
-			img = ss.sprites[spriteNum];
+			img = ss.sprites[16 + spriteNum];
 			break;
 		case "left":
-			img = ss.sprites[spriteNum + 4];
+			img = ss.sprites[spriteNum];
 			break;
 		case "right":
-			img = ss.sprites[spriteNum + 8];
+			img = ss.sprites[8 + spriteNum];
 			break;
 		}
 		g2.drawImage(img, SCREEN_X, SCREEN_Y, gp.TILE_SIZE, gp.TILE_SIZE, null);
