@@ -72,15 +72,14 @@ public class Player extends Entity {
 		
 		if (moving == true) {
 			
+			System.out.println("sCount: " + spriteCounter);
+			System.out.println("sNum: " + spriteNum);
 			// Animate sprite moving
 			spriteCounter++;
 			if (spriteCounter > 8) {
-				if (spriteNum == 0) {
-					spriteNum = 1;
-				}
-				else if (spriteNum == 1) {
+				spriteNum++;
+				if (spriteNum > 3) {
 					spriteNum = 0;
-					
 				}
 				spriteCounter = 0;
 			}
@@ -99,7 +98,7 @@ public class Player extends Entity {
 		BufferedImage playerSheet;
 		try {
 			playerSheet = ImageIO.read(getClass().getResourceAsStream("/player/player_sprite_sheet.png"));
-			ss = new SpriteSheet(48, 96, 4, 2, playerSheet, 8);
+			ss = new SpriteSheet(96, 96, 4, 4, playerSheet, 16);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -112,16 +111,16 @@ public class Player extends Entity {
 		
 		switch(direction) {
 		case "up":
-			img = ss.sprites[spriteNum + 6];
+			img = ss.sprites[spriteNum + 12];
 			break;
 		case "down":
 			img = ss.sprites[spriteNum];
 			break;
 		case "left":
-			img = ss.sprites[spriteNum + 2];
+			img = ss.sprites[spriteNum + 4];
 			break;
 		case "right":
-			img = ss.sprites[spriteNum + 4];
+			img = ss.sprites[spriteNum + 8];
 			break;
 		}
 		g2.drawImage(img, SCREEN_X, SCREEN_Y, gp.TILE_SIZE, gp.TILE_SIZE, null);
