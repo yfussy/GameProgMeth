@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -29,6 +30,14 @@ public class Player extends Entity {
 		
 		SCREEN_X = gp.SCREEN_WIDTH/2 - (gp.TILE_SIZE/2);
 		SCREEN_Y = gp.SCREEN_HEIGHT/2 - (gp.TILE_SIZE/2);
+		
+		solidArea = new Rectangle();
+		solidArea.x = 1;
+		solidArea.y = 1;
+		solidAreaDefaultX = solidArea.x;
+		solidAreaDefaultY = solidArea.y;
+		solidArea.width = 46;
+		solidArea.height = 46;
 		
 		setDefaultValues();
 		getPlayerImage();
@@ -62,6 +71,10 @@ public class Player extends Entity {
 					direction = "right";
 				}
 				moving = true;
+				
+				// Check Tile Collision
+				collisionOn = false;
+				gp.cChecker.checkTile(this);
 			}
 			else { // Return sprite animation to default when standing still;
 				standCounter++;
@@ -74,23 +87,23 @@ public class Player extends Entity {
 		
 		if (moving == true) {
 			
-			switch (direction) {
-			case "up":
-				worldY -= speed;
-				break;
-			case "down":
-				worldY += speed;
-				break;
-			case "left":
-				worldX -= speed;
-				break;
-			case "right":
-				worldX += speed;
-				break;
+			if (collisionOn == false) { // Check collision
+				switch (direction) {
+				case "up":
+					worldY -= speed;
+					break;
+				case "down":
+					worldY += speed;
+					break;
+				case "left":
+					worldX -= speed;
+					break;
+				case "right":
+					worldX += speed;
+					break;
+				}
 			}
 			
-			System.out.println("sCount: " + spriteCounter);
-			System.out.println("sNum: " + spriteNum);
 			// Animate sprite moving
 			spriteCounter++;
 			if (spriteCounter > 3) {

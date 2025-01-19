@@ -15,8 +15,8 @@ import main.SpriteSheet;
 public class TileManager {
 	
 	GamePanel gp;
-	Tile[] tile;
-	int mapTileNum[][];
+	public Tile[] tile;
+	public int mapTileNum[][];
 	int spriteCount = 10;
 	
 	
@@ -43,6 +43,7 @@ public class TileManager {
 			for (int i = 0; i < grassSheet.sprites.length; i++) {
 				tile[spriteCount] = new Tile();
 				tile[spriteCount].image = grassSheet.sprites[i];
+				tile[spriteCount].collision = true;
 				spriteCount++;
 			}
 		

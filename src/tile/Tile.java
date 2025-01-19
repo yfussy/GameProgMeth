@@ -8,4 +8,5 @@ public class Tile {
 	
 	BufferedImage image;
 	SpriteSheet ss;
+	public boolean collision;
 }
