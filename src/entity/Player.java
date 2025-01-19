@@ -15,8 +15,8 @@ public class Player extends Entity {
 	GamePanel gp;
 	KeyHandler keyH;
 	
-	final int SCREEN_X;
-	final int SCREEN_Y;
+	public final int SCREEN_X;
+	public final int SCREEN_Y;
 	
 	boolean moving = false;
 	int standCounter = 0;
@@ -36,6 +36,8 @@ public class Player extends Entity {
 	
 	public void setDefaultValues() {
 		
+		worldX = gp.TILE_SIZE * 15;
+		worldY = gp.TILE_SIZE * 8;
 		speed = 6;
 		direction = "down";
 	}
@@ -71,6 +73,21 @@ public class Player extends Entity {
 		}
 		
 		if (moving == true) {
+			
+			switch (direction) {
+			case "up":
+				worldY -= speed;
+				break;
+			case "down":
+				worldY += speed;
+				break;
+			case "left":
+				worldX -= speed;
+				break;
+			case "right":
+				worldX += speed;
+				break;
+			}
 			
 			System.out.println("sCount: " + spriteCounter);
 			System.out.println("sNum: " + spriteNum);
