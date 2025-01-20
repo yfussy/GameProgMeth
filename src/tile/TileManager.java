@@ -36,26 +36,39 @@ public class TileManager {
 		
 		try {
 			
-			// GRASS
-			BufferedImage img;
-			img = ImageIO.read(getClass().getResourceAsStream("/tiles/grass_sprite_sheet.png"));
-			SpriteSheet grassSheet = new SpriteSheet(img.getWidth(), img.getHeight(), 3, 5, img, 15);
-			for (int i = 0; i < grassSheet.sprites.length; i++) {
-				tile[spriteCount] = new Tile();
-				tile[spriteCount].image = grassSheet.sprites[i];
-				tile[spriteCount].collision = true;
-				spriteCount++;
-			}
+			// GRASS (10-24)
+			getSheet("/tiles/Grass.png", 3, 5, 15, true);
 		
-			// DIRT
+			// DIRT (25)
 			tile[spriteCount] = new Tile();
-			tile[spriteCount].image = ImageIO.read(getClass().getResourceAsStream("/tiles/dirt.png"));
+			tile[spriteCount].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Dirt.png"));
 			spriteCount++;
 			
 		} catch (IOException e) {
 			
 			e.printStackTrace();
 		}
+	}
+	
+	public void getSheet (String dir, int row, int col, int spriteNum, boolean collision) {
+		
+		try {
+			
+			BufferedImage img;
+			img = ImageIO.read(getClass().getResourceAsStream(dir));
+			SpriteSheet sheet = new SpriteSheet(img.getWidth(), img.getHeight(), row, col, img, spriteNum);
+			for (int i = 0; i < sheet.sprites.length; i++) {
+
+				tile[spriteCount] = new Tile();
+				tile[spriteCount].image = sheet.sprites[i];
+				tile[spriteCount].collision = collision;
+				spriteCount++;
+			}
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void loadMap(String filePath)   {
