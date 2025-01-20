@@ -19,9 +19,13 @@ public class Player extends Entity {
 	public final int SCREEN_X;
 	public final int SCREEN_Y;
 	
-	boolean moving = false;
+	
 	int standCounter = 0;
+	int standNum = 0;
 	int pixelCounter = 0;
+	boolean moving = false;
+	boolean idle = true;
+
 	
 	public Player(GamePanel gp, KeyHandler keyH) {
 		
@@ -71,6 +75,8 @@ public class Player extends Entity {
 					direction = "right";
 				}
 				moving = true;
+				idle = false;
+				standCounter = 0;
 				
 				// Check Tile Collision
 				collisionOn = false;
@@ -78,9 +84,21 @@ public class Player extends Entity {
 			}
 			else { // Return sprite animation to default when standing still;
 				standCounter++;
-				if (standCounter == 4) {
-					spriteNum = 3;
+				if (standCounter >= 4 && idle == false) {
+					idle = true;
+					spriteNum = 0;
 					standCounter = 0;
+				}
+				
+				if (idle == true) {
+					standNum++;
+					if (standNum > 12) {
+						spriteNum++;
+						if (spriteNum > 3) {
+							spriteNum = 0;
+						}
+						standNum = 0;
+					}
 				}
 			}
 		}
@@ -125,11 +143,12 @@ public class Player extends Entity {
 	
 	public void getPlayerImage() {
 		
-		BufferedImage playerSheet;
+		BufferedImage sheet;
 		try {
-			playerSheet = ImageIO.read(getClass().getResourceAsStream("/player/player_sprite_sheet.png"));
-			ss = new SpriteSheet(playerSheet.getWidth(), playerSheet.getHeight(), 4, 8, playerSheet, 32);
-			
+			sheet = ImageIO.read(getClass().getResourceAsStream("/player/player_walk.png"));
+			walk = new SpriteSheet(sheet.getWidth(), sheet.getHeight(), 4, 8, sheet, 32);
+			sheet = ImageIO.read(getClass().getResourceAsStream("/player/player_idle.png"));
+			stand = new SpriteSheet(sheet.getWidth(), sheet.getHeight(), 4, 4, sheet, 16);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -137,22 +156,49 @@ public class Player extends Entity {
 	
 	public void draw(Graphics2D g2) {
 		
+		try {
+
+			BufferedImage shadowSheet = ImageIO.read(getClass().getResourceAsStream("/textures/Other.png"));
+			SpriteSheet tmp = new SpriteSheet(shadowSheet.getWidth(), shadowSheet.getHeight(), 3, 4, shadowSheet, 12);
+			BufferedImage shadow = tmp.sprites[4];
+			g2.drawImage(shadow, SCREEN_X, SCREEN_Y + (gp.TILE_SIZE/2), gp.TILE_SIZE, gp.TILE_SIZE/2, null);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
 		BufferedImage img = null;
 		
 		switch(direction) {
 		case "up":
-			img = ss.sprites[24 + spriteNum];
+			if (idle == true) {
+				img = stand.sprites[12 + spriteNum];
+			} else {
+				img = walk.sprites[24 + spriteNum];		
+			}
 			break;
 		case "down":
-			img = ss.sprites[16 + spriteNum];
+			if (idle == true) {
+				img = stand.sprites[8 + spriteNum];
+			} else {				
+				img = walk.sprites[16 + spriteNum];
+			}
 			break;
 		case "left":
-			img = ss.sprites[spriteNum];
+			if (idle == true) {
+				img = stand.sprites[spriteNum];
+			} else {
+				img = walk.sprites[spriteNum];				
+			}
 			break;
 		case "right":
-			img = ss.sprites[8 + spriteNum];
+			if (idle == true) {
+				img = stand.sprites[4 + spriteNum];
+			} else {
+				img = walk.sprites[8 + spriteNum];				
+			}
 			break;
 		}
-		g2.drawImage(img, SCREEN_X, SCREEN_Y, gp.TILE_SIZE, gp.TILE_SIZE, null);
+		g2.drawImage(img, SCREEN_X, SCREEN_Y, gp.TILE_SIZE, gp.TILE_SIZE, null);	
 	}
 }

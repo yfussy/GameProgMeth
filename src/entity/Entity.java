@@ -14,8 +14,9 @@ public class Entity {
 	public String direction;	
 	
 	int spriteCounter = 0;
-	int spriteNum = 3;
-	SpriteSheet ss;
+	int spriteNum = 0;
+	SpriteSheet walk;
+	SpriteSheet stand;
 	
 	public Rectangle solidArea;
 	public int solidAreaDefaultX, solidAreaDefaultY;
