@@ -23,8 +23,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 720px
 	
 	// WORLD SETTINGS
-	public final int MAX_WORLD_COL = 25;
-	public final int MAX_WORLD_ROW = 20;
+	public final int MAX_WORLD_COL = 50;
+	public final int MAX_WORLD_ROW = 50;
 	
 	// FPS
 	final int FPS = 60;
@@ -80,7 +80,7 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			
 			if (timer >= 1000000000) {
-				System.out.println("FPS: " + drawCount);
+//				System.out.println("FPS: " + drawCount);
 				timer = 0;
 				drawCount = 0;
 			}
