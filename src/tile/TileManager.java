@@ -37,7 +37,7 @@ public class TileManager {
 		try {
 			
 			// GRASS (10-24)
-			getSheet("/tiles/Grass.png", 3, 5, 15, true);
+			getSheet("/tiles/Grass1.png", 3, 5, 15, true);
 		
 			// DIRT (25)
 			tile[spriteCount] = new Tile();

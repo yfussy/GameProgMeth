@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import texture.TextureManager;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -30,13 +31,15 @@ public class GamePanel extends JPanel implements Runnable {
 	final int FPS = 60;
 	
 	// SYSTEM
-	TileManager tileM = new TileManager(this);
+	public TileManager tileM = new TileManager(this);
+	TextureManager textM = new TextureManager(this);
 	KeyHandler keyH = new KeyHandler();
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	Thread gameThread;
 	
 	// ENTITY
 	public Player player = new Player(this, keyH);
+	public TextureManager obj[] = new TextureManager[10];
 	
 	public GamePanel() {
 		
@@ -102,6 +105,8 @@ public class GamePanel extends JPanel implements Runnable {
 		tileM.draw(g2);
 		// PLAYER
 		player.draw(g2);
+		// TEXTURE
+		textM.draw(g2);
 		
 		g2.dispose();
 		
