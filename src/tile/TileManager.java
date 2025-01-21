@@ -24,7 +24,7 @@ public class TileManager {
 		
 		this.gp = gp;
 		
-		tile = new Tile[30];
+		tile = new Tile[60];
 		mapTileNum = new int[gp.MAX_WORLD_COL][gp.MAX_WORLD_ROW];
 		
 		getTileImage();
@@ -43,6 +43,9 @@ public class TileManager {
 			tile[spriteCount] = new Tile();
 			tile[spriteCount].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Dirt.png"));
 			spriteCount++;
+			
+			// PLANTER (26-28)
+			getSheet("/tiles/misc.png", 3, 10, 30, false);
 			
 		} catch (IOException e) {
 			
