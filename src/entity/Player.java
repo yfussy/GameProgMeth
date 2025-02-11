@@ -14,7 +14,7 @@ import main.KeyHandler;
 import main.SpriteSheet;
 import tile.TileManager;
 
-public class Player extends Entity implements MouseListener {
+public class Player extends Entity {
 	
 	GamePanel gp;
 	KeyHandler keyH;
@@ -28,8 +28,6 @@ public class Player extends Entity implements MouseListener {
 	int pixelCounter = 0;
 	boolean moving = false;
 	boolean idle = true;
-	
-	boolean leftClicked;
 	
 	public Player(GamePanel gp, KeyHandler keyH, TileManager tileM) {
 		
@@ -56,117 +54,35 @@ public class Player extends Entity implements MouseListener {
 		
 		worldX = gp.TILE_SIZE * 24;
 		worldY = gp.TILE_SIZE * 36;
-		speed = 6;
+		speed = 8;
 		direction = "down";
-	}
-	
-	public void setPlanter() {
-		
-		int num;
-		boolean dirtTop = true;
-		boolean dirtBottom = true;
-		boolean dirtLeft = true;
-		boolean dirtRight = true;
-		
-		int planterCol = worldX / gp.TILE_SIZE;
-		int planterRow = worldY / gp.TILE_SIZE;
-		
-		switch (direction) {
-		case "up":
-			planterRow--; 
-			break;
-		case "down":
-			planterRow++; 
-			break;
-		case "left":
-			planterCol--;
-			break;
-		case "right":
-			planterCol++; 
-			break;
-		}
-		
-		if (tileM.mapTileNum[planterCol][planterRow] != 25) {
-			return;
-		}
-		
-		if (tileM.mapTileNum[planterCol - 1][planterRow] > 25) {
-			dirtLeft = false;
-		}
-		if (tileM.mapTileNum[planterCol + 1][planterRow] > 25) {
-			dirtRight = false;
-		}
-		if (tileM.mapTileNum[planterCol][planterRow - 1] > 25) {
-			dirtTop = false;
-		}
-		if (tileM.mapTileNum[planterCol][planterRow + 1] > 25) {
-			dirtBottom = false;
-		}
-		
-		num = (dirtTop && dirtLeft ? 1 : 0)
-                + (dirtTop && dirtRight ? 2 : 0)
-                + (dirtBottom && dirtRight ? 3 : 0)
-                + (dirtBottom && dirtLeft ? 4 : 0) + 25;
-		tileM.mapTileNum[planterCol][planterRow] = num;
-		System.out.println(num);
 	}
 	
 	public void update() {
 		
-		if (moving == false) {
 			
-			if (keyH.upPressed == true || keyH.downPressed == true || 
-					keyH.leftPressed == true || keyH.rightPressed == true) {
-				
-				if (keyH.upPressed == true) {
-					direction = "up";
-				}
-				else if (keyH.downPressed == true) {
-					direction = "down";
-				}
-				else if (keyH.leftPressed == true) {
-					direction = "left";
-				}
-				else if (keyH.rightPressed == true) {
-					direction = "right";
-				}
-				moving = true;
-				idle = false;
-				standCounter = 0;
-				
-				// Check Tile Collision
-				collisionOn = false;
-				gp.cChecker.checkTile(this);
+		if (keyH.upPressed == true || keyH.downPressed == true || 
+				keyH.leftPressed == true || keyH.rightPressed == true) {
+			
+			if (keyH.upPressed == true) {
+				direction = "up";
 			}
-			else { // Return sprite animation to default when standing still;
-				
-				if (leftClicked) {
-					
-					setPlanter();
-					leftClicked = false;
-				}
-				
-				standCounter++;
-				if (standCounter >= 4 && idle == false) {
-					idle = true;
-					spriteNum = 0;
-					standCounter = 0;
-				}
-				
-				if (idle == true) {
-					standNum++;
-					if (standNum > 12) {
-						spriteNum++;
-						if (spriteNum > 3) {
-							spriteNum = 0;
-						}
-						standNum = 0;
-					}
-				}
+			else if (keyH.downPressed == true) {
+				direction = "down";
 			}
-		}
-		
-		if (moving == true) {
+			else if (keyH.leftPressed == true) {
+				direction = "left";
+			}
+			else if (keyH.rightPressed == true) {
+				direction = "right";
+			}
+			moving = true;
+			idle = false;
+			standCounter = 0;
+			
+			// Check Tile Collision
+			collisionOn = false;
+			gp.cChecker.checkTile(this);
 			
 			if (collisionOn == false) { // Check collision
 				switch (direction) {
@@ -187,21 +103,34 @@ public class Player extends Entity implements MouseListener {
 			
 			// Animate sprite moving
 			spriteCounter++;
-			if (spriteCounter > 3) {
+			if (spriteCounter > 2) {
 				spriteNum++;
 				if (spriteNum > 7) {
 					spriteNum = 0;
 				}
 				spriteCounter = 0;
 			}
-			
-			// moving tile by tile
-			pixelCounter += speed;
-			if (pixelCounter >= 46) {
-				moving = false;
-				pixelCounter = 0;
-			}
 		}
+		else { // Return sprite animation to default when standing still;
+			
+			standCounter++;
+			if (standCounter >= 4 && idle == false) {
+				idle = true;
+				spriteNum = 0;
+				standCounter = 0;
+			}
+			
+			if (idle == true) {
+				standNum++;
+				if (standNum > 4) {
+					spriteNum++;
+					if (spriteNum > 3) {
+						spriteNum = 0;
+					}
+					standNum = 0;
+				}
+			}
+		}		
 	}
 	
 	public void getPlayerImage() {
@@ -263,29 +192,5 @@ public class Player extends Entity implements MouseListener {
 			break;
 		}
 		g2.drawImage(img, SCREEN_X, SCREEN_Y, gp.TILE_SIZE, gp.TILE_SIZE, null);	
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			leftClicked = true;
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {	
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {	
 	}
 }

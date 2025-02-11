@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	// SYSTEM
 	public TileManager tileM = new TileManager(this);
-	TextureManager textM = new TextureManager(this);
+//	TextureManager textM = new TextureManager(this);
 	KeyHandler keyH = new KeyHandler();
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	Thread gameThread;
@@ -47,7 +47,6 @@ public class GamePanel extends JPanel implements Runnable {
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
-		this.addMouseListener(player);
 		this.setFocusable(true);
 	}
 	
@@ -107,7 +106,7 @@ public class GamePanel extends JPanel implements Runnable {
 		// PLAYER
 		player.draw(g2);
 		// TEXTURE
-		textM.draw(g2);
+//		textM.draw(g2);	
 		
 		g2.dispose();
 		
